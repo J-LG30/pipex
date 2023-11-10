@@ -1,26 +1,29 @@
 #include "pipex.h"
 
-void	write_to_pipe(int fd, char *cmd_path, char **argument, char *filename)
+void	write_to_pipe(int fd, char *cmd_path, char **argument, char *filename, char **env)
 {
 	int	file1;
 
 	file1 = open(filename, O_RDONLY);
+	dup2(file1, 0);
 	dup2(fd, 1);
-	execve(cmd_path, argument, NULL);
+	execve(cmd_path, argument, env);
 }
 
 //The second command executes whatever is written at
 //the fd[0] of the pipe (the reading fd)
 //eg: it would execute ls on fd[0]
-void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument)
+void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument, char **env)
 {
 	int		file2;
-	char	*buf;
 
-	//printf("its reading from pipe\n");
-	file2 = open(filename, O_WRONLY);
+	file2 = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (file2 == -1)
+		printf("error opening file\n");
 	dup2(file2, 1);
-	execve(cmd_path, argument, NULL);
+	dup2(fd, 0);
+	execve(cmd_path, argument, env);
+	printf("Parent execve error\n");
 }
 
 char	**create_arg(char *argv, char *filename)
@@ -30,29 +33,30 @@ char	**create_arg(char *argv, char *filename)
 	int		array_size;
 	int		i;
 
+	
 	array_size = 0;
 	argument = ft_split(argv, ' ');
-	while (argument[array_size])
-		array_size++;
-	new_array = malloc(sizeof(char*) * (array_size + 2));
-	i = 0;
-	array_size = 0;
-	while (argument[array_size])
-	{
-		new_array[i] = ft_strdup(argument[array_size]);
-		i++;
-		array_size++;
-	}
-	new_array[i] = ft_strdup(filename);
-	new_array[i + 1] = NULL;
-	i = 0;
-	// while (new_array[i]){
-
-	// //printf("%s\n", new_array[i]);
-	// i++;
+	// while (argument[array_size])
+	// 	array_size++;
+	// new_array = malloc(sizeof(char*) * (array_size + 1));
+	// i = 0;
+	// array_size = 0;
+	
+	// while (argument[array_size])
+	// {
+	// 	new_array[i] = ft_strdup(argument[array_size]);
+	// 	i++;
+	// 	array_size++;
 	// }
-	free(argument);
-	return (new_array);
+	
+	// if (!filename)
+	// 	new_array[i] = NULL;
+	// else
+	// 	new_array[i] = ft_strdup(filename);
+	// new_array[i + 1] = NULL;
+	// i = 0;
+	// free(argument);
+	return (argument);
 }
 
 //find i value for string equaling all the directories with exectuables
@@ -131,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 			printf("Couldnt retrieve command path\n");
 			exit (1);
 		}
-		write_to_pipe(fd[1], cmd_path, create_arg(argv[2], argv[1]), argv[1]);
+		write_to_pipe(fd[1], cmd_path, create_arg(argv[2], argv[1]), argv[1], env);
 		exit(0);	
 	}
 	//parent writes into pipe the ouput of command 1
@@ -140,7 +144,13 @@ int	main(int argc, char **argv, char **env)
 		//printf("%s\n", argv[4]);
 		waitpid(-1, NULL, 0);
 		close(fd[1]);
-		read_from_pipe(fd[0], argv[4], argv[3], create_arg(argv[3], argv[4]));
+		cmd_path = get_command_path(argv[3], env);
+		if (!cmd_path)
+		{
+			printf("Couldnt retrieve command path\n");
+			exit (1);
+		}
+		read_from_pipe(fd[0], argv[4], cmd_path, create_arg(argv[3], NULL), env);
 		exit(0);	
 	}
 }

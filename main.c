@@ -43,13 +43,13 @@ int	main(void)
 
 int	main(int argc, char **argv)
 {
-	char *cmd = "/bin/ls";
-	char *arg[] = {"ls", "-l", "read.txt", NULL};
-	char *env[] = {NULL};
+	// char *cmd = "/bin/ls";
+	char *arg[] = {"grep", "e", NULL};
+	// char *env[] = {NULL};
 
-	if (execve(cmd, arg, env) == -1)
-		printf("Execve error\n");
-	printf("oops\n");
+	// if (execve(cmd, arg, env) == -1)
+	// 	printf("Execve error\n");
+	// printf("oops\n");
 
 	// int	i = 0;
 	// while (env[i])
@@ -57,4 +57,15 @@ int	main(int argc, char **argv)
 	// 	printf("%s\n", env[i]);
 	// 	i++;
 	// }
+
+	int argh = open("test.txt", O_RDONLY);
+	int woopi = open("test_out.txt", O_WRONLY);
+
+
+	//dup2(file2, 1);
+	dup2(argh, 0);
+	dup2(woopi, 1);
+	execve("/usr/bin/grep", arg, NULL);
+	//execve(cmd_path, argument, env);
+	printf("Parent execve error\n");
 }
