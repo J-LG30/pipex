@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:35:07 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/04/18 18:11:45 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:59:20 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strdup(char *src)
 {
 	char	*dst;
 
-	dst = malloc(ft_strlen(src) + 1);
+	dst = malloc(ft_strlen(src) +1);
 	if (dst == NULL)
 		return (NULL);
 	else

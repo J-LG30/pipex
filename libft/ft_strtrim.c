@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:19:12 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/04/18 18:23:24 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:35:25 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (0);
 	start = 0;
 	while (in_set(s1[start], set) == 1 && s1[start] != '\0')
-			start++;
+		start++;
 	end = ft_strlen(s1);
 	while (in_set(s1[end - 1], set) && s1[end - 1] != '\0' && end > start)
 		end--;
@@ -59,7 +59,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 #include <string.h>
 int main(void)
 {
-	
+
 	char *a = "//-/holydht--/-/-";
 	char *set = "/-";
 	char *b = "hello";
@@ -71,7 +71,7 @@ int main(void)
 	printf("%s\n", ft_strtrim(c, d));
 	printf("%p\n", ft_strtrim(0, 0));
 	char *ret = ft_strtrim(c, place);
-	
+
 	char *str = ft_strtrim("   xxx   xxx", " x");
 	if (!strcmp(str, ""))
 	{

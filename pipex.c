@@ -1,19 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/10 14:19:08 by jle-goff          #+#    #+#             */
+/*   Updated: 2023/11/10 15:26:30 by jle-goff         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-void	write_to_pipe(int fd, char *cmd_path, char **argument, char *filename, char **env)
+void	write_to_pipe(int fd, char *cmd_path, char **argument, char *filename)
 {
 	int	file1;
 
 	file1 = open(filename, O_RDONLY);
+	if (file1 == -1)
+		printf("error opening file\n");
 	dup2(file1, 0);
 	dup2(fd, 1);
-	execve(cmd_path, argument, env);
+	close(fd);
+	close(file1);
+	execve(cmd_path, argument, NULL);
 }
 
 //The second command executes whatever is written at
 //the fd[0] of the pipe (the reading fd)
 //eg: it would execute ls on fd[0]
-void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument, char **env)
+void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument)
 {
 	int		file2;
 
@@ -22,7 +38,9 @@ void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument, cha
 		printf("error opening file\n");
 	dup2(file2, 1);
 	dup2(fd, 0);
-	execve(cmd_path, argument, env);
+	close(file2);
+	close(fd);
+	execve(cmd_path, argument, NULL);
 	printf("Parent execve error\n");
 }
 
@@ -33,29 +51,8 @@ char	**create_arg(char *argv, char *filename)
 	int		array_size;
 	int		i;
 
-	
 	array_size = 0;
 	argument = ft_split(argv, ' ');
-	// while (argument[array_size])
-	// 	array_size++;
-	// new_array = malloc(sizeof(char*) * (array_size + 1));
-	// i = 0;
-	// array_size = 0;
-	
-	// while (argument[array_size])
-	// {
-	// 	new_array[i] = ft_strdup(argument[array_size]);
-	// 	i++;
-	// 	array_size++;
-	// }
-	
-	// if (!filename)
-	// 	new_array[i] = NULL;
-	// else
-	// 	new_array[i] = ft_strdup(filename);
-	// new_array[i + 1] = NULL;
-	// i = 0;
-	// free(argument);
 	return (argument);
 }
 
@@ -67,7 +64,6 @@ char	**create_arg(char *argv, char *filename)
 //if you can you found the path for the command
 char	*get_command_path(char *command, char **env)
 {
-	char	*slash_new_cmd;
 	char	*cmd_path;
 	char	**new_cmd;
 	char	**dirs;
@@ -75,8 +71,7 @@ char	*get_command_path(char *command, char **env)
 
 	i = 0;
 	new_cmd = ft_split(command, ' ');
-	slash_new_cmd = ft_strdup("/");
-	ft_strlcat(slash_new_cmd, new_cmd[0], 100);
+	new_cmd[0] = ft_strjoin("/", new_cmd[0]);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
@@ -85,7 +80,7 @@ char	*get_command_path(char *command, char **env)
 			i = 0;
 			while (dirs[i])
 			{
-				cmd_path = ft_strjoin(dirs[i], slash_new_cmd);
+				cmd_path = ft_strjoin(dirs[i], new_cmd[0]);
 				if (access(cmd_path, X_OK) == 0)
 				{
 					return (cmd_path);
@@ -94,8 +89,7 @@ char	*get_command_path(char *command, char **env)
 			}
 			return (NULL);
 		}
-		else
-			i++;
+		i++;
 	}
 	return (NULL);
 }
@@ -111,21 +105,17 @@ int	main(int argc, char **argv, char **env)
 		printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit (1);
 	}
-	//create pipe and handle error
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		exit (1);
 	}
-	//Fork to create parent and child process
-	//handle fork error
-	if ((pid = fork()) == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("fork");
 		exit (1);
 	}
-	//if child process cmd2
-	//child process reads from pipe and uses that to execute command 2
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -135,13 +125,11 @@ int	main(int argc, char **argv, char **env)
 			printf("Couldnt retrieve command path\n");
 			exit (1);
 		}
-		write_to_pipe(fd[1], cmd_path, create_arg(argv[2], argv[1]), argv[1], env);
-		exit(0);	
+		write_to_pipe(fd[1], cmd_path, create_arg(argv[2], argv[1]), argv[1]);
+		exit(0);
 	}
-	//parent writes into pipe the ouput of command 1
 	else
 	{
-		//printf("%s\n", argv[4]);
 		waitpid(-1, NULL, 0);
 		close(fd[1]);
 		cmd_path = get_command_path(argv[3], env);
@@ -150,7 +138,7 @@ int	main(int argc, char **argv, char **env)
 			printf("Couldnt retrieve command path\n");
 			exit (1);
 		}
-		read_from_pipe(fd[0], argv[4], cmd_path, create_arg(argv[3], NULL), env);
-		exit(0);	
+		read_from_pipe(fd[0], argv[4], cmd_path, create_arg(argv[3], NULL));
+		exit(0);
 	}
 }
