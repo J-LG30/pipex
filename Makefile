@@ -2,7 +2,7 @@ NAME = pipex
 CC = @cc
 FLAGS = -Wall -Wextra -Werror #-fsanitize=address -static-libsan -g
 
-SRCS = pipex.c
+SRCS = pipex.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft

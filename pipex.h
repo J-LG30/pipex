@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:19:04 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/11/10 14:20:43 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/11/23 17:33:23 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,3 +16,5 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+
+void	error_quit(int type);
