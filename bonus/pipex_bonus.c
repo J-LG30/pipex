@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/28 17:17:17 by jle-goff          #+#    #+#             */
+/*   Updated: 2023/11/28 17:29:02 by jle-goff         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
+
+// void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument)
+// {
+// 	int		file2;
+
+// 	dup2(fd, 0);
+// 	close(fd);
+// 	execve(cmd_path, argument, NULL);
+// 	printf("Parent execve error\n");
+// }
 
 void	error_quit(int type)
 {
@@ -14,23 +36,12 @@ void	error_quit(int type)
 }
 
 //free if execve fails
-void	write_to_pipe(int fd, char *cmd_path, char **argument, char *filename)
+void	write_to_pipe(int fd, char *cmd_path, char **argument)
 {
-	int	file1;
 
 	dup2(fd, 1);
 	execve(cmd_path, argument, NULL);
 	free(cmd_path);
-}
-
-void	read_from_pipe(int fd, char *filename, char *cmd_path, char **argument)
-{
-	int		file2;
-
-	dup2(fd, 0);
-	close(fd);
-	execve(cmd_path, argument, NULL);
-	printf("Parent execve error\n");
 }
 
 char	**create_arg(char *argv)
