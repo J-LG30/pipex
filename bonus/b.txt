@@ -1,0 +1,4 @@
+-rwxr-xr-x  1 juliettelegoff  staff  50624 Nov 28 16:01 pipex_bonus
+-rw-r--r--  1 juliettelegoff  staff   2221 Nov 28 16:02 pipex_bonus.c
+-rw-r--r--  1 juliettelegoff  staff    127 Nov 17 14:29 pipex_bonus.h
+-rw-r--r--  1 juliettelegoff  staff   3464 Nov 28 16:01 pipex_bonus.o
