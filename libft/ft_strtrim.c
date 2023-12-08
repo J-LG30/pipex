@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:19:12 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/11/10 14:35:25 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:08:34 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,31 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (str);
 }
 
-/*
-#include <string.h>
-int main(void)
-{
 
-	char *a = "//-/holydht--/-/-";
-	char *set = "/-";
-	char *b = "hello";
-	char *c = "";
-	char *d = "";
-	char *place = " \n\t";
-	printf("%s\n", ft_strtrim(a, set));
-	printf("%s\n", ft_strtrim(b, set));
-	printf("%s\n", ft_strtrim(c, d));
-	printf("%p\n", ft_strtrim(0, 0));
-	char *ret = ft_strtrim(c, place);
+// #include <string.h>
+// int main(void)
+// {
 
-	char *str = ft_strtrim("   xxx   xxx", " x");
-	if (!strcmp(str, ""))
-	{
-		printf("wooodjfo\n");
-	}
-}
-*/
+// 	char *a = "//-/holydht--/-/-";
+// 	char *space = "-hi-my name is juliette";
+// 	char *space_set = " ";
+// 	char *set = "/-";
+// 	char *b = "hello";
+// 	char *c = "";
+// 	char *d = "";
+// 	char *place = " \n\t";
+// 	printf("%s\n", ft_strtrim(space, set));
+// 	printf("%s\n", ft_strtrim(space, space_set));
+// 	printf("%s\n", ft_strtrim(a, set));
+// 	printf("%s\n", ft_strtrim(b, set));
+// 	printf("%s\n", ft_strtrim(c, d));
+// 	printf("%p\n", ft_strtrim(0, 0));
+// 	char *ret = ft_strtrim(c, place);
+
+// 	char *str = ft_strtrim("   xxx   xxx", " x");
+// 	if (!strcmp(str, ""))
+// 	{
+// 		printf("wooodjfo\n");
+// 	}
+// }
+
