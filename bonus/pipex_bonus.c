@@ -49,24 +49,30 @@ char	*get_command_path(char *command, char **env)
 	char	**new_cmd;
 	char	**dirs;
 	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5))
 		i++;
 	dirs = ft_split(env[i], ':');
 	i = 0;
-	printf("%s\n", command);
 	while (dirs[i])
 	{
 		cmd_path = ft_strjoin(dirs[i], "/");
 		cmd_path = ft_strjoin(cmd_path, command);
-		printf("%s\n", cmd_path);
 		if (access(cmd_path, X_OK) == 0)
 		{
+			while(dirs[j++])
+				free(dirs[j]);
 			free(dirs);
 			return (cmd_path);
 		}
 		i++;
 	}
+	j = 0;
+	while (dirs[j++])
+		free(dirs[j]);
 	free(dirs);
 	return (NULL);
 }
