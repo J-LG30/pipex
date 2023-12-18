@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/18 11:50:14 by jle-goff          #+#    #+#             */
+/*   Updated: 2023/12/18 13:16:02 by jle-goff         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
+
+void	free_arg(char **arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+		free(arg[i++]);
+	free(arg);
+}
 
 void	error_quit(int type)
 {
@@ -17,52 +39,35 @@ char	**create_arg(char *argv)
 {
 	char	**argument;
 
-    int i = 0;
 	argument = ft_split(argv, ' ');
-    // while (argument[i])
-    // {
-    //     printf("%s\n", argument[i]);
-    //     i++;
-    // }
 	return (argument);
 }
 
 char	*get_command_path(char *command, char **env, int test_fd)
 {
+	char	*incomplete_path;
 	char	*cmd_path;
 	char	**new_cmd;
 	char	**dirs;
 	int		i;
-	int		j;
 
-    static int test_counter = 0;
 	i = 0;
-	j = 0;
-    //printf("%s\n", command);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5))
 		i++;
 	dirs = ft_split(env[i], ':');
 	i = 0;
 	while (dirs[i])
 	{
-		cmd_path = ft_strjoin(dirs[i], "/");
-		cmd_path = ft_strjoin(cmd_path, command);
-       // printf("%s\n", cmd_path);
+		incomplete_path = ft_strjoin(dirs[i++], "/");
+		cmd_path = ft_strjoin(incomplete_path, command);
+		free(incomplete_path);
 		if (access(cmd_path, X_OK) == 0)
 		{
-			while(dirs[j++])
-				free(dirs[j]);
-			free(dirs);
-            // write(test_fd, cmd_path, ft_strlen(cmd_path));
-            // write(test_fd, ft_itoa(test_counter), 1);
-            test_counter++;
+			free_arg(dirs);
 			return (cmd_path);
 		}
-		i++;
+		free(cmd_path);
 	}
-	j = 0;
-	while (dirs[j++])
-		free(dirs[j]);
-	free(dirs);
+	free_arg(dirs);
 	return (NULL);
 }

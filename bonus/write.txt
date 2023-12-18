@@ -1,12 +1,1 @@
--rw-r--r--  1 juliettelegoff  staff     44  9 Dec 13:59 read.txt
--rw-r--r--  1 juliettelegoff  staff    565 13 Dec 17:46 makefile
--rw-r--r--  1 juliettelegoff  staff   1142 13 Dec 17:52 pipex_bonus.h
--rw-r--r--  1 juliettelegoff  staff   1304 14 Dec 16:17 pipex_bonus_utils.c
--rw-r--r--  1 juliettelegoff  staff   1728  9 Dec 13:31 test.c
--rw-r--r--  1 juliettelegoff  staff   1800 14 Dec 16:21 pipex_bonus.o
--rw-r--r--  1 juliettelegoff  staff   2046 14 Dec 16:21 pipex_bonus.c
--rw-r--r--  1 juliettelegoff  staff   2152 14 Dec 16:18 pipex_bonus_utils.o
--rwxr-xr-x  1 juliettelegoff  staff      0 14 Dec 16:21 write.txt
--rwxr-xr-x  1 juliettelegoff  staff     88 30 Nov 14:58 b.txt
--rwxr-xr-x  1 juliettelegoff  staff  50568 14 Dec 16:21 pipex_bonus
-total 176
+-rw-r--r-- 1 jle-goff 2023_lisboa  1231 Dec 18 12:59 pipex_bonus.h
