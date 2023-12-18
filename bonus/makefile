@@ -2,7 +2,7 @@ NAME = pipex_bonus
 CC = @cc
 FLAGS = -Wall -Wextra -Werror #-fsanitize=address -static-libsan -g
 
-SRCS = pipex_bonus.c
+SRCS = pipex_bonus.c pipex_bonus_utils.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = ../libft

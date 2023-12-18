@@ -16,3 +16,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+
+void	error_quit(int type);
+char	**create_arg(char *argv);
+char	*get_command_path(char *command, char **env, int test_fd);
