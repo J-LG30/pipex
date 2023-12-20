@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 11:50:14 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/18 13:16:02 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:26:16 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,24 @@ void	free_arg(char **arg)
 	free(arg);
 }
 
-void	error_quit(int type)
+void	error_quit(int type, int fd[2], int fileout)
 {
 	if (type == 1)
-		write(1, "Usage: ./pipex file1 cmd1 cmd2 ... file2\n", 41);
+		write(2, "Usage: ./pipex file1 cmd1 cmd2 ... file2\n", 41);
 	if (type == 2)
-		perror("pipe");
+	{
+		close(fileout);
+		perror("Pipe failed");
+	}
 	if (type == 3)
-		perror("fork");
+	{
+		close(fileout);
+		close(fd[0]);
+		close(fd[1]);
+		perror("Fork failed");
+	}
 	if (type == 4)
-		write(1, "Could not retrieve command path\n", 32);
+		write(2, "Could not retrieve command path\n", 32);
 	exit (1);
 }
 
@@ -56,7 +64,7 @@ char	*get_command_path(char *command, char **env, int test_fd)
 		i++;
 	dirs = ft_split(env[i], ':');
 	i = 0;
-	while (dirs[i])
+	while (dirs && dirs[i])
 	{
 		incomplete_path = ft_strjoin(dirs[i++], "/");
 		cmd_path = ft_strjoin(incomplete_path, command);

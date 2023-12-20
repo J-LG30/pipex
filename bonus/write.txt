@@ -1,5 +1,3 @@
-b.txt
-bleh.txt
 makefile
 pipex_bonus
 pipex_bonus.c
@@ -9,7 +7,6 @@ pipex_bonus_utils.c
 pipex_bonus_utils.o
 read.txt
 test
-test.c
 test_bonus.c
 test_bonus.o
 write.txt

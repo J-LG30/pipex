@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:17:17 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/18 13:13:42 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:47:00 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	write_to_pipe(int fd, char **env, char *argv)
 	cmd_path = get_command_path(arg[0], env, fd);
 	if (!cmd_path)
 	{
+		close(fd);
 		free_arg(arg);
-		error_quit(4);
+		error_quit(4, 0, 0);
 	}
 	dup2(fd, 1);
 	close(fd);
@@ -36,10 +37,10 @@ void	pipe_loop(int fd[2], t_file files, char *argv, char **env)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		error_quit(2);
+		error_quit(2, 0, files.fileout);
 	pid = fork();
 	if (pid == -1)
-		error_quit(3);
+		error_quit(3, fd, files.fileout);
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -51,7 +52,8 @@ void	pipe_loop(int fd[2], t_file files, char *argv, char **env)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		//waitpid(pid, NULL, 0);
+		close(fd[0]);
+		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -63,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 	t_file	files;
 
 	if (argc < 5)
-		error_quit(1);
+		error_quit(1, 0, 0);
 	i = 2;
 	files.fileout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	files.filein = open(argv[1], O_RDONLY);
@@ -74,10 +76,5 @@ int	main(int argc, char **argv, char **env)
 		i++;
 	}
 	close(files.filein);
-	pid = fork();
-	if (pid == -1)
-		error_quit(3);
-	if (pid == 0)
-		write_to_pipe(files.fileout, env, argv[i]);
-	waitpid(-1, NULL, 0);
+	write_to_pipe(files.fileout, env, argv[i]);
 }
