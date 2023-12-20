@@ -1,1 +1,15 @@
--rw-r--r-- 1 jle-goff 2023_lisboa  1231 Dec 18 12:59 pipex_bonus.h
+b.txt
+bleh.txt
+makefile
+pipex_bonus
+pipex_bonus.c
+pipex_bonus.h
+pipex_bonus.o
+pipex_bonus_utils.c
+pipex_bonus_utils.o
+read.txt
+test
+test.c
+test_bonus.c
+test_bonus.o
+write.txt

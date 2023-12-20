@@ -26,6 +26,7 @@ void	write_to_pipe(int fd, char **env, char *argv)
 	}
 	dup2(fd, 1);
 	close(fd);
+	perror(cmd_path);
 	execve(cmd_path, arg, env);
 	free(cmd_path);
 }
@@ -50,7 +51,7 @@ void	pipe_loop(int fd[2], t_file files, char *argv, char **env)
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
+		//waitpid(pid, NULL, 0);
 	}
 }
 
@@ -73,6 +74,10 @@ int	main(int argc, char **argv, char **env)
 		i++;
 	}
 	close(files.filein);
-	write_to_pipe(files.fileout, env, argv[i]);
-	exit(0);
+	pid = fork();
+	if (pid == -1)
+		error_quit(3);
+	if (pid == 0)
+		write_to_pipe(files.fileout, env, argv[i]);
+	waitpid(-1, NULL, 0);
 }
