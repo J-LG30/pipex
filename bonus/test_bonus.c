@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 16:15:31 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/20 17:50:17 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:13:53 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ void	pipe_loop(t_file files, t_pipex *pipex, char **argv, char **env)
 void	open_files(t_file *files, char **argv, int argc)
 {
 	files->fileout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (files->fileout == -1)
+		error_quit(5, 0, 0);
 	files->filein = open(argv[1], O_RDONLY);
+	if (files->filein == -1)
+		error_quit(5, 0, files->fileout);
 	files->argc = argc;
 	dup2(files->filein, 0);
 	close(files->filein);

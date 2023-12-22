@@ -6,22 +6,31 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:28:15 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/20 17:59:49 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:05:43 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_quit(int type)
+void	error_quit(int type, int fd[2], int file)
 {
 	if (type == 1)
 		write(1, "Usage: ./pipex file1 cmd1 cmd2 file2\n", 37);
 	if (type == 2)
-		perror("pipe");
+		perror("Pipe failed");
 	if (type == 3)
-		perror("fork");
+	{
+		close(fd[0]);
+		close(fd[1]);
+		perror("Fork failed");
+	}
 	if (type == 4)
 		write(1, "Could not retrieve command path\n", 32);
+	if (type == 5)
+	{
+		close(fd[0]);
+		perror("Error opening file");
+	}
 	exit (1);
 }
 

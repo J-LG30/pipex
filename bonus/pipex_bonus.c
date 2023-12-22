@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:17:17 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/20 15:47:00 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:14:03 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	main(int argc, char **argv, char **env)
 		error_quit(1, 0, 0);
 	i = 2;
 	files.fileout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (files.fileout == -1)
+		error_quit(5, 0, 0);
 	files.filein = open(argv[1], O_RDONLY);
 	dup2(files.filein, 0);
 	while (i < argc - 2)

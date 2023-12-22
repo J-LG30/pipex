@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 11:50:14 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/20 16:26:16 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:12:24 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	error_quit(int type, int fd[2], int fileout)
 	}
 	if (type == 4)
 		write(2, "Could not retrieve command path\n", 32);
+	if (type == 5)
+	{
+		close(fileout);
+		perror("Error opening file");
+	}
 	exit (1);
 }
 

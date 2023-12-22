@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 11:19:12 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/08 16:08:34 by jle-goff         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:45:36 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (str);
 }
 
-
 // #include <string.h>
 // int main(void)
 // {
@@ -82,4 +81,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 // 		printf("wooodjfo\n");
 // 	}
 // }
-
