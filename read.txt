@@ -1,4 +1,19 @@
-hello
-i
-love
-noodles
+total 280
+-rw-r--r--@  1 juliettelegoff  staff    539 Nov 26 15:19 Makefile
+-rwxr-xr-x   1 juliettelegoff  staff  49680 Nov 10 01:56 a.out
+drwxr-xr-x  12 juliettelegoff  staff    384 Dec 21 12:41 bonus
+-rwxr-xr-x   1 juliettelegoff  staff     21 Nov 10 01:49 haha.txt
+drwxrwxr-x@ 89 juliettelegoff  staff   2848 Dec 22 17:51 libft
+-rwxr-xr-x   1 juliettelegoff  staff     21 Nov 10 01:47 lol.txt
+-rwxr-xr-x   1 juliettelegoff  staff     21 Nov 11 12:42 new.txt
+-rwxr-xr-x   1 juliettelegoff  staff  34312 Dec 22 17:51 pipex
+-rw-r--r--   1 juliettelegoff  staff   3072 Dec 22 17:51 pipex.c
+-rw-r--r--   1 juliettelegoff  staff   1154 Dec 21 12:41 pipex.h
+-rw-r--r--   1 juliettelegoff  staff   2192 Dec 22 17:51 pipex.o
+-rwxr-xr-x   1 juliettelegoff  staff     21 Nov 10 01:51 pullup.txt
+-rw-r--r--   1 juliettelegoff  staff      0 Dec 22 17:51 read.txt
+-rw-r--r--   1 juliettelegoff  staff      6 Nov 10 01:36 test.txt
+-rw-r--r--   1 juliettelegoff  staff      6 Nov 10 01:56 test_out.txt
+-rw-r--r--   1 juliettelegoff  staff   1895 Dec 21 12:41 utils.c
+-rw-r--r--   1 juliettelegoff  staff   2128 Dec 22 17:50 utils.o
+-rwxr-xr-x   1 juliettelegoff  staff     21 Nov 11 12:01 write.txt

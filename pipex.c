@@ -50,32 +50,71 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid;
 	char	*cmd_path;
 	char	**arg;
+	pid_t	pid_1;
+	pid_t	pid_2;
 
 	if (argc != 5)
 		error_quit(1);
 	if (pipe(fd) == -1)
 		error_quit(2);
-	pid = fork();
-	if (pid == -1)
+	pid_1 = fork();
+	if (pid_1 == -1)
 		error_quit(3);
-	if (pid == 0)
-	{
-		close(fd[0]);
-		arg = create_arg(argv[2]);
-		cmd_path = get_command_path(arg[0], env);
-		if (!cmd_path)
-			error_quit(4);
-		write_to_pipe(fd[1], cmd_path, arg, argv[1]);
-		free(cmd_path);
-	}
-	else
+	if (pid_1 != 0)
+		pid_2 = fork();
+	if (pid_2 == -1)
+		error_quit(3);
+	if (pid_1 == 0)
 	{
 		close(fd[1]);
+		arg = create_arg(argv[2]);
+		cmd_path = get_command_path(arg[0], env);
+		read_from_pipe(fd[0], argv[1], cmd_path, arg);
+	}
+	if (pid_2 == 0)
+	{
+		close(fd[0]);
 		arg = create_arg(argv[3]);
 		cmd_path = get_command_path(arg[0], env);
-		if (!cmd_path)
-			error_quit(4);
-		read_from_pipe(fd[0], argv[4], cmd_path, arg);
-		free(cmd_path);
+		write_to_pipe(fd[1], cmd_path, arg, argv[4]);
 	}
+
 }
+
+// int	main(int argc, char **argv, char **env)
+// {
+// 	int		fd[2];
+// 	pid_t	pid;
+// 	char	*cmd_path;
+// 	char	**arg;
+// 	pid_t	pid_1;
+// 	pid_t	pid_2;
+
+// 	if (argc != 5)
+// 		error_quit(1);
+// 	if (pipe(fd) == -1)
+// 		error_quit(2);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		error_quit(3);
+// 	if (pid == 0)
+// 	{
+// 		close(fd[0]);
+// 		arg = create_arg(argv[2]);
+// 		cmd_path = get_command_path(arg[0], env);
+// 		if (!cmd_path)
+// 			error_quit(4);
+// 		write_to_pipe(fd[1], cmd_path, arg, argv[1]);
+// 		free(cmd_path);
+// 	}
+// 	else
+// 	{
+// 		close(fd[1]);
+// 		arg = create_arg(argv[3]);
+// 		cmd_path = get_command_path(arg[0], env);
+// 		if (!cmd_path)
+// 			error_quit(4);
+// 		read_from_pipe(fd[0], argv[4], cmd_path, arg);
+// 		free(cmd_path);
+// 	}
+// }
