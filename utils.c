@@ -6,7 +6,7 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:28:15 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/22 19:05:43 by jle-goff         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:19:21 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	error_quit(int type, int fd[2], int file)
 		perror("Fork failed");
 	}
 	if (type == 4)
+	{
+		close(fd[0]);
 		write(1, "Could not retrieve command path\n", 32);
+	}
 	if (type == 5)
 	{
 		close(fd[0]);

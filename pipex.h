@@ -6,11 +6,13 @@
 /*   By: jle-goff <jle-goff@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:19:04 by jle-goff          #+#    #+#             */
-/*   Updated: 2023/12/22 18:52:35 by jle-goff         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:40:12 by jle-goff         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
+# define PIPEX_H
+
 # include "libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
